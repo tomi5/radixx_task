@@ -4,6 +4,7 @@ import {
   buttonText,
   flightDateName,
   flightOptions,
+  flightRouteWays,
 } from "../../Translations/translations";
 import FlightRoute from "../FlightRoute/FlightRoute";
 import FlightType from "../FlightType/FlightType";
@@ -15,7 +16,7 @@ const App = () => {
   return (
     <FormControl>
       <FlightType flightOptions={flightOptions} />
-      <FlightRoute />
+      <FlightRoute flightRouteWays={flightRouteWays} />
       <FlightDate flightDateName={flightDateName} />
       <SearchFlightButton buttonText={buttonText.SEARCH_FLIGHT} />
     </FormControl>
