@@ -3,15 +3,26 @@ import { Autocomplete, TextField } from "@mui/material";
 
 import * as PropTypes from "prop-types";
 
-const FlightRoute = ({ flightRouteWays }) => {
+const FlightRoute = ({
+  flightRouteWays,
+  airports,
+  isLoadingData,
+  fetchError,
+}) => {
   const { TO, FROM } = flightRouteWays;
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    !isLoadingData && !fetchError && setOptions([...airports?.airports]);
+  }, [airports, isLoadingData, fetchError]);
 
   return (
     <>
       <Autocomplete
         disablePortal
+        disabled={fetchError && true}
         id="flight-origin"
-        options={[]}
+        options={options}
+        getOptionLabel={(option) => option.name}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label={FROM} />}
       />
@@ -20,7 +31,8 @@ const FlightRoute = ({ flightRouteWays }) => {
         disablePortal
         disabled={fetchError && true}
         id="flight-destination"
-        options={[]}
+        options={options}
+        getOptionLabel={(option) => option.name}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label={TO} />}
       />
@@ -33,6 +45,9 @@ FlightRoute.propTypes = {
     TO: PropTypes.string.isRequired,
     FROM: PropTypes.string.isRequired,
   }),
+  airports: PropTypes.shape([]),
+  isLoadingData: PropTypes.bool.isRequired,
+  fetchError: PropTypes.shape({}),
 };
 
 export default FlightRoute;
