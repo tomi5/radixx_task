@@ -1,5 +1,5 @@
 import "../../App.css";
-import { FormControl, Stack } from "@mui/material";
+import { Box, FormControl, Stack } from "@mui/material";
 import {
   buttonText,
   errors,
@@ -13,6 +13,7 @@ import FlightType from "../FlightType/FlightType";
 import FlightDate from "../FlightDate/FlightDate";
 import SearchFlightButton from "../Buttons/SearchFlightButton";
 import useFetch from "react-fetch-hook";
+import { formWrapperStyle } from "./style";
 
 const API_TOKEN =
   "9d7d6eeb25cd6083e0df323a0fff258e59398a702fac09131275b6b1911e202d";
@@ -25,26 +26,28 @@ const App = () => {
   });
 
   return (
-    <FormControl>
-      <Stack direction="column" spacing={2}>
-        {isLoading && <div>{loadingData.LoadingAirports}</div>}
-        {error && <div>{errors.FETCH_ERROR}</div>}
-        <FlightType flightOptions={flightOptions} />
-        <Stack
-          direction={{ xs: "column", lg: "row" }}
-          spacing={{ xs: 2, lg: 4 }}
-        >
-          <FlightRoute
-            flightRouteWays={flightRouteWays}
-            airports={data}
-            isLoadingData={isLoading}
-            fetchError={error}
-          />
-          <FlightDate flightDateName={flightDateName} />
+    <Box sx={formWrapperStyle}>
+      <FormControl>
+        <Stack direction="column" spacing={2}>
+          {isLoading && <div>{loadingData.LoadingAirports}</div>}
+          {error && <div>{errors.FETCH_ERROR}</div>}
+          <FlightType flightOptions={flightOptions} />
+          <Stack
+            direction={{ xs: "column", lg: "row" }}
+            spacing={{ xs: 2, lg: 4 }}
+          >
+            <FlightRoute
+              flightRouteWays={flightRouteWays}
+              airports={data}
+              isLoadingData={isLoading}
+              fetchError={error}
+            />
+            <FlightDate flightDateName={flightDateName} />
+          </Stack>
+          <SearchFlightButton buttonText={buttonText.SEARCH_FLIGHT} />
         </Stack>
-        <SearchFlightButton buttonText={buttonText.SEARCH_FLIGHT} />
-      </Stack>
-    </FormControl>
+      </FormControl>
+    </Box>
   );
 };
 
