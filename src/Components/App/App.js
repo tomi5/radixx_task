@@ -1,5 +1,5 @@
 import "../../App.css";
-import { Box, FormControl, Stack } from "@mui/material";
+import { Alert, Box, FormControl, Stack } from "@mui/material";
 import {
   buttonText,
   errors,
@@ -25,13 +25,17 @@ const App = () => {
     headers: { "Tenant-Identifier": API_TOKEN },
   });
 
+  const isSearchButtonDisabled = !!(isLoading || error);
+
   return (
     <Box sx={formWrapper}>
       <FormControl>
         <Stack direction="column" spacing={2}>
-          {isLoading && <div>{loadingData.LoadingAirports}</div>}
-          {error && <div>{errors.FETCH_ERROR}</div>}
           <FlightType flightOptions={flightOptions} />
+          {isLoading && (
+            <Alert severity="info">{loadingData.LoadingAirports}</Alert>
+          )}
+          {error && <Alert severity="error">{errors.FETCH_ERROR}</Alert>}
           <Stack
             direction={{ xs: "column", lg: "row" }}
             spacing={{ xs: 2, lg: 4 }}
@@ -44,7 +48,10 @@ const App = () => {
             />
             <FlightDate flightDateName={flightDateName} />
           </Stack>
-          <SearchFlightButton buttonText={buttonText.SEARCH_FLIGHT} />
+          <SearchFlightButton
+            disabled={isSearchButtonDisabled}
+            buttonText={buttonText.SEARCH_FLIGHT}
+          />
         </Stack>
       </FormControl>
     </Box>

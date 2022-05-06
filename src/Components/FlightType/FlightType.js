@@ -6,7 +6,7 @@ const FlightType = ({ flightOptions }) => {
   const { ONE_WAY, ROUND_TRIP } = flightOptions;
   const [value, setValue] = useState(ONE_WAY);
 
-  const handleChange = (e) => {
+  const handleRadioChange = (e) => {
     setValue(e.target.value);
   };
 
@@ -15,7 +15,7 @@ const FlightType = ({ flightOptions }) => {
       row
       aria-labelledby="flight type selection"
       value={value}
-      onChange={handleChange}
+      onChange={handleRadioChange}
       name="flight-type"
     >
       <FormControlLabel value={ONE_WAY} label={ONE_WAY} control={<Radio />} />
