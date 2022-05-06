@@ -10,7 +10,6 @@ import FlightRoute from "../FlightRoute/FlightRoute";
 import FlightType from "../FlightType/FlightType";
 import FlightDate from "../FlightDate/FlightDate";
 import SearchFlightButton from "../Buttons/SearchFlightButton";
-import React from "@types/react";
 import useFetch from "react-fetch-hook";
 
 const API_TOKEN =
