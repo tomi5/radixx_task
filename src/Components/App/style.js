@@ -5,7 +5,7 @@ export const formWrapper = {
   padding: "6rem 3rem",
   justifyContent: "center",
   alignItems: "center",
-  bgcolor: "grey.100",
+  bgcolor: "background.paper",
   borderRadius: "12px",
   boxShadow: 4,
 };

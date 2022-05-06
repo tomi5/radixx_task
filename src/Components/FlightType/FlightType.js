@@ -1,30 +1,31 @@
-import { useState } from "react";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { Controller } from "react-hook-form";
 import * as PropTypes from "prop-types";
 
-const FlightType = ({ flightOptions }) => {
+const FlightType = ({ flightOptions, control }) => {
   const { ONE_WAY, ROUND_TRIP } = flightOptions;
-  const [value, setValue] = useState(ONE_WAY);
-
-  const handleRadioChange = (e) => {
-    setValue(e.target.value);
-  };
 
   return (
-    <RadioGroup
-      row
-      aria-labelledby="flight type selection"
-      value={value}
-      onChange={handleRadioChange}
-      name="flight-type"
-    >
-      <FormControlLabel value={ONE_WAY} label={ONE_WAY} control={<Radio />} />
-      <FormControlLabel
-        value={ROUND_TRIP}
-        label={ROUND_TRIP}
-        control={<Radio />}
-      />
-    </RadioGroup>
+    <Controller
+      name="flightType"
+      control={control}
+      defaultValue={ONE_WAY}
+      aria-label="flight type selection"
+      render={({ field }) => (
+        <RadioGroup row {...field}>
+          <FormControlLabel
+            value={ONE_WAY}
+            label={ONE_WAY}
+            control={<Radio />}
+          />
+          <FormControlLabel
+            value={ROUND_TRIP}
+            label={ROUND_TRIP}
+            control={<Radio />}
+          />
+        </RadioGroup>
+      )}
+    />
   );
 };
 

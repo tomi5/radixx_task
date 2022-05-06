@@ -10,6 +10,7 @@ const SearchFlightButton = ({ disabled, buttonText }) => {
       size="large"
       aria-label={buttonText}
       disabled={disabled}
+      type="submit"
     >
       {buttonText}
     </Button>
