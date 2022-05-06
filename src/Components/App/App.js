@@ -13,7 +13,7 @@ import FlightType from "../FlightType/FlightType";
 import FlightDate from "../FlightDate/FlightDate";
 import SearchFlightButton from "../Buttons/SearchFlightButton";
 import useFetch from "react-fetch-hook";
-import { formWrapperStyle } from "./style";
+import { formWrapper } from "./style";
 
 const API_TOKEN =
   "9d7d6eeb25cd6083e0df323a0fff258e59398a702fac09131275b6b1911e202d";
@@ -26,7 +26,7 @@ const App = () => {
   });
 
   return (
-    <Box sx={formWrapperStyle}>
+    <Box sx={formWrapper}>
       <FormControl>
         <Stack direction="column" spacing={2}>
           {isLoading && <div>{loadingData.LoadingAirports}</div>}

@@ -1,6 +1,7 @@
 import React from "react";
 import { TextField } from "@mui/material";
 import * as PropTypes from "prop-types";
+import { dataPicker } from "./style";
 
 const FlightDate = ({ flightDateName }) => {
   const { DEPART, RETURN } = flightDateName;
@@ -12,7 +13,7 @@ const FlightDate = ({ flightDateName }) => {
         label={DEPART}
         type="date"
         defaultValue=""
-        sx={{ width: 220 }}
+        sx={dataPicker}
         InputLabelProps={{
           shrink: true,
         }}
@@ -22,7 +23,7 @@ const FlightDate = ({ flightDateName }) => {
         label={RETURN}
         type="date"
         defaultValue=""
-        sx={{ width: 220 }}
+        sx={dataPicker}
         InputLabelProps={{
           shrink: true,
         }}

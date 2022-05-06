@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 
 import * as PropTypes from "prop-types";
+import { routeSelector } from "./style";
 
 const FlightRoute = ({
   flightRouteWays,
@@ -23,7 +24,7 @@ const FlightRoute = ({
         id="flight-origin"
         options={options}
         getOptionLabel={(option) => option.name}
-        sx={{ width: 300 }}
+        sx={routeSelector}
         renderInput={(params) => <TextField {...params} label={FROM} />}
       />
 
@@ -33,7 +34,7 @@ const FlightRoute = ({
         id="flight-destination"
         options={options}
         getOptionLabel={(option) => option.name}
-        sx={{ width: 300 }}
+        sx={routeSelector}
         renderInput={(params) => <TextField {...params} label={TO} />}
       />
     </>
