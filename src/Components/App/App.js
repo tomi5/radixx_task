@@ -1,10 +1,12 @@
 import "../../App.css";
-import { FormControl } from "@mui/material";
+import { FormControl, Stack } from "@mui/material";
 import {
   buttonText,
+  errors,
   flightDateName,
   flightOptions,
   flightRouteWays,
+  loadingData,
 } from "../../Translations/translations";
 import FlightRoute from "../FlightRoute/FlightRoute";
 import FlightType from "../FlightType/FlightType";
@@ -24,15 +26,24 @@ const App = () => {
 
   return (
     <FormControl>
-      <FlightType flightOptions={flightOptions} />
-      <FlightRoute
-        flightRouteWays={flightRouteWays}
-        airports={data}
-        isLoadingData={isLoading}
-        fetchError={error}
-      />
-      <FlightDate flightDateName={flightDateName} />
-      <SearchFlightButton buttonText={buttonText.SEARCH_FLIGHT} />
+      <Stack direction="column" spacing={2}>
+        {isLoading && <div>{loadingData.LoadingAirports}</div>}
+        {error && <div>{errors.FETCH_ERROR}</div>}
+        <FlightType flightOptions={flightOptions} />
+        <Stack
+          direction={{ xs: "column", lg: "row" }}
+          spacing={{ xs: 2, lg: 4 }}
+        >
+          <FlightRoute
+            flightRouteWays={flightRouteWays}
+            airports={data}
+            isLoadingData={isLoading}
+            fetchError={error}
+          />
+          <FlightDate flightDateName={flightDateName} />
+        </Stack>
+        <SearchFlightButton buttonText={buttonText.SEARCH_FLIGHT} />
+      </Stack>
     </FormControl>
   );
 };

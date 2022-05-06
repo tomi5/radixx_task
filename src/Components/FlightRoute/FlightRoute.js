@@ -45,7 +45,7 @@ FlightRoute.propTypes = {
     TO: PropTypes.string.isRequired,
     FROM: PropTypes.string.isRequired,
   }),
-  airports: PropTypes.shape([]),
+  airports: PropTypes.shape({}),
   isLoadingData: PropTypes.bool.isRequired,
   fetchError: PropTypes.shape({}),
 };
