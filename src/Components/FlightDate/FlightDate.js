@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 import * as PropTypes from "prop-types";
 import { dataPicker } from "./style";
 
-const FlightDate = ({ flightDateName }) => {
+const FlightDate = ({ flightDateName, isRoundTrip }) => {
   const { DEPART, RETURN } = flightDateName;
 
   return (
@@ -23,6 +23,7 @@ const FlightDate = ({ flightDateName }) => {
         label={RETURN}
         type="date"
         defaultValue=""
+        disabled={!isRoundTrip}
         sx={dataPicker}
         InputLabelProps={{
           shrink: true,
@@ -37,6 +38,7 @@ FlightDate.propTypes = {
     DEPART: PropTypes.string.isRequired,
     RETURN: PropTypes.string.isRequired,
   }),
+  isRoundTrip: PropTypes.bool.isRequired,
 };
 
 export default FlightDate;

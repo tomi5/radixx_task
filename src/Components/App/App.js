@@ -1,5 +1,5 @@
 import "../../App.css";
-import { Alert, Box, FormControl, Stack } from "@mui/material";
+import { Alert, Box, Stack } from "@mui/material";
 import {
   buttonText,
   errors,
@@ -31,16 +31,27 @@ const App = () => {
     headers: { "Tenant-Identifier": API_TOKEN },
   });
 
-  const { handleSubmit, control } = useForm(initailFormValue);
+  const { handleSubmit, control } = useForm();
   const [formValues, setFormValues] = useState(initailFormValue);
-  console.log(formValues);
   const isSearchButtonDisabled = !!(isLoading || error);
+  const isRoundTrip = formValues.flightType === flightOptions.ROUND_TRIP;
+  const setFlightType = (e) => {
+    setFormValues({
+      ...initailFormValue,
+      flightType: e.target.value,
+    });
+  };
 
   return (
     <Box sx={formWrapper}>
       <form onSubmit={handleSubmit((data) => setFormValues(data))}>
         <Stack direction="column" spacing={2}>
-          <FlightType flightOptions={flightOptions} control={control} />
+          <FlightType
+            flightOptions={flightOptions}
+            control={control}
+            formValues={formValues}
+            handleChange={setFlightType}
+          />
           {isLoading && (
             <Alert severity="info">{loadingData.LoadingAirports}</Alert>
           )}
@@ -54,8 +65,12 @@ const App = () => {
               airports={data}
               isLoadingData={isLoading}
               fetchError={error}
+              formValues={formValues}
             />
-            <FlightDate flightDateName={flightDateName} />
+            <FlightDate
+              flightDateName={flightDateName}
+              isRoundTrip={isRoundTrip}
+            />
           </Stack>
           <SearchFlightButton
             disabled={isSearchButtonDisabled}

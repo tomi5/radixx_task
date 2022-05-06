@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, createFilterOptions, TextField } from "@mui/material";
 
 import * as PropTypes from "prop-types";
 import { routeSelector } from "./style";
@@ -12,9 +12,14 @@ const FlightRoute = ({
 }) => {
   const { TO, FROM } = flightRouteWays;
   const [options, setOptions] = useState([]);
+
   useEffect(() => {
     !isLoadingData && !fetchError && setOptions([...airports?.airports]);
   }, [airports, isLoadingData, fetchError]);
+
+  const filterOptions = createFilterOptions({
+    stringify: ({ name, code }) => `${name} ${code}`,
+  });
 
   return (
     <>
@@ -23,7 +28,8 @@ const FlightRoute = ({
         disabled={fetchError && true}
         id="flight-origin"
         options={options}
-        getOptionLabel={(option) => option.name}
+        filterOptions={filterOptions}
+        getOptionLabel={({ name }) => name}
         sx={routeSelector}
         renderInput={(params) => <TextField {...params} label={FROM} />}
       />
@@ -33,7 +39,8 @@ const FlightRoute = ({
         disabled={fetchError && true}
         id="flight-destination"
         options={options}
-        getOptionLabel={(option) => option.name}
+        filterOptions={filterOptions}
+        getOptionLabel={({ name }) => name}
         sx={routeSelector}
         renderInput={(params) => <TextField {...params} label={TO} />}
       />
