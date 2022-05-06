@@ -1,6 +1,10 @@
 import "../../App.css";
 import { FormControl } from "@mui/material";
-import { buttonText, flightOptions } from "../../Translations/translations";
+import {
+  buttonText,
+  flightDateName,
+  flightOptions,
+} from "../../Translations/translations";
 import FlightRoute from "../FlightRoute/FlightRoute";
 import FlightType from "../FlightType/FlightType";
 import FlightDate from "../FlightDate/FlightDate";
@@ -12,7 +16,7 @@ const App = () => {
     <FormControl>
       <FlightType flightOptions={flightOptions} />
       <FlightRoute />
-      <FlightDate />
+      <FlightDate flightDateName={flightDateName} />
       <SearchFlightButton buttonText={buttonText.SEARCH_FLIGHT} />
     </FormControl>
   );
