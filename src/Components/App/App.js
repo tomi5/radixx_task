@@ -7,7 +7,7 @@ import FlightDate from "../FlightDate/FlightDate";
 import SearchFlightButton from "../Buttons/SearchFlightButton";
 import useFetch from "react-fetch-hook";
 import { formWrapper } from "./style";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import { AIRPORT_API_PATH, API_TOKEN } from "../../common/config";
@@ -18,6 +18,7 @@ import {
   DEPART_DATE,
   RETURN_DATE,
 } from "../../common/constants";
+import FlightCriteriaPresentation from "../FlightCriteriaPresentation/FlightCriteriaPresentation";
 
 const App = () => {
   const {
@@ -38,6 +39,12 @@ const App = () => {
 
   const { handleSubmit, control } = useForm();
   const [formValues, setFormValues] = useState(initialFormValue);
+  const [dataToDisplay, setData] = useState(null);
+
+  useEffect(() => {
+    setData(null);
+  }, [formValues]);
+
   const isRoundTrip = formValues[FLIGHT_TYPE] === flightOptions.ROUND_TRIP;
 
   const isSearchButtonDisabled = !!(
@@ -72,7 +79,7 @@ const App = () => {
 
   return (
     <Box sx={formWrapper}>
-      <form onSubmit={handleSubmit((data) => setFormValues(data))}>
+      <form onSubmit={handleSubmit(() => setData(formValues))}>
         <Stack direction="column" spacing={2}>
           <FlightType
             formValues={formValues}
@@ -92,8 +99,8 @@ const App = () => {
               isLoadingData={isLoadingAirports}
               fetchError={fetchAirportError}
               formValues={formValues}
-              control={control}
               handleChange={handleAirportSelect}
+              control={control}
             />
             <FlightDate
               isRoundTrip={isRoundTrip}
@@ -106,6 +113,13 @@ const App = () => {
             buttonText={buttonText.SEARCH_FLIGHT}
           />
         </Stack>
+
+        {dataToDisplay && (
+          <FlightCriteriaPresentation
+            dataToDisplay={dataToDisplay}
+            isRoundTrip={isRoundTrip}
+          />
+        )}
       </form>
     </Box>
   );

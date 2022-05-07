@@ -14,7 +14,7 @@ const FlightDate = ({ isRoundTrip, handleChange, control }) => {
       <Controller
         name={DEPART_DATE}
         control={control}
-        render={({ field }) => (
+        render={() => (
           <TextField
             id={DEPART_DATE}
             label={DEPART}
@@ -31,7 +31,7 @@ const FlightDate = ({ isRoundTrip, handleChange, control }) => {
       <Controller
         name={RETURN_DATE}
         control={control}
-        render={({ field }) => (
+        render={() => (
           <TextField
             id={RETURN_DATE}
             label={RETURN}
@@ -53,6 +53,7 @@ const FlightDate = ({ isRoundTrip, handleChange, control }) => {
 FlightDate.propTypes = {
   isRoundTrip: PropTypes.bool.isRequired,
   control: PropTypes.shape({}),
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default FlightDate;

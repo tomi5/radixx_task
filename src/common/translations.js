@@ -25,6 +25,9 @@ const loadingData = {
   LoadingAirports: "A moment please...",
 };
 
+const FLIGHT_OPTION = "Flight type";
+const FLIGHT_CRITERIA_SUMMARY = "YOUR SEARCH CRITERIA SUMMARY";
+
 export {
   flightOptions,
   flightRouteWays,
@@ -32,4 +35,6 @@ export {
   buttonText,
   errors,
   loadingData,
+  FLIGHT_OPTION,
+  FLIGHT_CRITERIA_SUMMARY,
 };

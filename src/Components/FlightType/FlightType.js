@@ -33,6 +33,7 @@ const FlightType = ({ formValues, handleChange, control }) => {
 };
 
 FlightType.propTypes = {
+  handleChange: PropTypes.func.isRequired,
   formValues: PropTypes.shape({}),
   control: PropTypes.shape({}),
 };
