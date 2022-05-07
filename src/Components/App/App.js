@@ -1,13 +1,6 @@
 import "../../App.css";
-import { Alert, Box, Stack } from "@mui/material";
-import {
-  buttonText,
-  errors,
-  flightDateName,
-  flightOptions,
-  flightRouteWays,
-  loadingData,
-} from "../../Translations/translations";
+import { Box, Stack } from "@mui/material";
+import { buttonText, flightOptions } from "../../common/translations";
 import FlightRoute from "../FlightRoute/FlightRoute";
 import FlightType from "../FlightType/FlightType";
 import FlightDate from "../FlightDate/FlightDate";
@@ -16,29 +9,64 @@ import useFetch from "react-fetch-hook";
 import { formWrapper } from "./style";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-const API_TOKEN =
-  "9d7d6eeb25cd6083e0df323a0fff258e59398a702fac09131275b6b1911e202d";
-const AIRPORT_API_PATH =
-  "https://api-uat-ezycommerce.ezyflight.se/api/v1/Airport/OriginsWithConnections/en-us";
-
-const initailFormValue = {
-  flightType: flightOptions.ONE_WAY,
-};
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
+import { AIRPORT_API_PATH, API_TOKEN } from "../../common/config";
+import {
+  FLIGHT_TYPE,
+  ORIGIN_AIRPORT,
+  DESTINATION_AIRPORT,
+  DEPART_DATE,
+  RETURN_DATE,
+} from "../../common/constants";
 
 const App = () => {
-  const { isLoading, data, error } = useFetch(AIRPORT_API_PATH, {
+  const {
+    isLoading: isLoadingAirports,
+    data: airports,
+    error: fetchAirportError,
+  } = useFetch(AIRPORT_API_PATH, {
     headers: { "Tenant-Identifier": API_TOKEN },
   });
 
+  const initialFormValue = {
+    [FLIGHT_TYPE]: flightOptions.ONE_WAY,
+    [ORIGIN_AIRPORT]: "",
+    [DESTINATION_AIRPORT]: "",
+    [DEPART_DATE]: "",
+    [RETURN_DATE]: "",
+  };
+
   const { handleSubmit, control } = useForm();
-  const [formValues, setFormValues] = useState(initailFormValue);
-  const isSearchButtonDisabled = !!(isLoading || error);
-  const isRoundTrip = formValues.flightType === flightOptions.ROUND_TRIP;
-  const setFlightType = (e) => {
+  const [formValues, setFormValues] = useState(initialFormValue);
+  const isRoundTrip = formValues[FLIGHT_TYPE] === flightOptions.ROUND_TRIP;
+
+  const isSearchButtonDisabled = !!(
+    isLoadingAirports ||
+    fetchAirportError ||
+    !formValues[ORIGIN_AIRPORT] ||
+    !formValues[DESTINATION_AIRPORT] ||
+    !formValues[DEPART_DATE] ||
+    (isRoundTrip && !formValues[RETURN_DATE])
+  );
+
+  const handleFlightTypeSelect = (e) => {
     setFormValues({
-      ...initailFormValue,
-      flightType: e.target.value,
+      ...formValues,
+      [FLIGHT_TYPE]: e.target.value,
+    });
+  };
+
+  const handleAirportSelect = (flightWay, airportName) => {
+    setFormValues({
+      ...formValues,
+      [flightWay]: airportName?.name ? airportName.name : "",
+    });
+  };
+
+  const handleFlightData = (dateType, e) => {
+    setFormValues({
+      ...formValues,
+      [dateType]: e.target.value,
     });
   };
 
@@ -47,29 +75,30 @@ const App = () => {
       <form onSubmit={handleSubmit((data) => setFormValues(data))}>
         <Stack direction="column" spacing={2}>
           <FlightType
-            flightOptions={flightOptions}
-            control={control}
             formValues={formValues}
-            handleChange={setFlightType}
+            handleChange={handleFlightTypeSelect}
+            control={control}
           />
-          {isLoading && (
-            <Alert severity="info">{loadingData.LoadingAirports}</Alert>
-          )}
-          {error && <Alert severity="error">{errors.FETCH_ERROR}</Alert>}
+          <ErrorBoundary
+            isLoading={isLoadingAirports}
+            error={fetchAirportError}
+          />
           <Stack
             direction={{ xs: "column", lg: "row" }}
             spacing={{ xs: 2, lg: 4 }}
           >
             <FlightRoute
-              flightRouteWays={flightRouteWays}
-              airports={data}
-              isLoadingData={isLoading}
-              fetchError={error}
+              airports={airports}
+              isLoadingData={isLoadingAirports}
+              fetchError={fetchAirportError}
               formValues={formValues}
+              control={control}
+              handleChange={handleAirportSelect}
             />
             <FlightDate
-              flightDateName={flightDateName}
               isRoundTrip={isRoundTrip}
+              handleChange={handleFlightData}
+              control={control}
             />
           </Stack>
           <SearchFlightButton

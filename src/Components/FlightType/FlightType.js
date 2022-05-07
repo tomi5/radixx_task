@@ -1,21 +1,17 @@
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { Controller } from "react-hook-form";
 import * as PropTypes from "prop-types";
+import { FLIGHT_TYPE } from "../../common/constants";
+import { flightOptions } from "../../common/translations";
 
-const FlightType = ({
-  flightOptions,
-  control,
-  formValues: { flightType },
-  handleChange,
-}) => {
+const FlightType = ({ formValues, handleChange, control }) => {
   const { ONE_WAY, ROUND_TRIP } = flightOptions;
 
   return (
     <Controller
-      name="flightType"
+      name={FLIGHT_TYPE}
       control={control}
-      defaultValue={flightType}
-      aria-label="flight type selection"
+      defaultValue={formValues[FLIGHT_TYPE]}
       render={({ field }) => (
         <RadioGroup row {...field}>
           <FormControlLabel
@@ -37,12 +33,8 @@ const FlightType = ({
 };
 
 FlightType.propTypes = {
-  flightRouteWays: PropTypes.shape({
-    ONE_WAY: PropTypes.string.isRequired,
-    ROUND_TRIP: PropTypes.string.isRequired,
-  }),
-  control: PropTypes.shape({}),
   formValues: PropTypes.shape({}),
+  control: PropTypes.shape({}),
 };
 
 export default FlightType;

@@ -1,26 +1,35 @@
-export const flightOptions = {
+const flightOptions = {
   ONE_WAY: "One way",
   ROUND_TRIP: "Round trip",
 };
 
-export const flightRouteWays = {
+const flightRouteWays = {
   TO: "To",
   FROM: "From",
 };
 
-export const flightDateName = {
+const flightDateName = {
   DEPART: "Depart",
   RETURN: "Return",
 };
 
-export const buttonText = {
+const buttonText = {
   SEARCH_FLIGHT: "Search flight",
 };
 
-export const errors = {
+const errors = {
   FETCH_ERROR: "There is a problem witch fetching data",
 };
 
-export const loadingData = {
+const loadingData = {
   LoadingAirports: "A moment please...",
+};
+
+export {
+  flightOptions,
+  flightRouteWays,
+  flightDateName,
+  buttonText,
+  errors,
+  loadingData,
 };
