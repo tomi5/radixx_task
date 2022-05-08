@@ -21,7 +21,10 @@ const FlightRoute = ({
   const [filteredOrigins, setFilteredOrigins] = useState([]);
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   useEffect(() => {
-    !isLoadingData && !fetchError && setOptions([...airports?.airports]);
+    !isLoadingData &&
+      !fetchError &&
+      airports &&
+      setOptions([...airports?.airports]);
   }, [airports, isLoadingData, fetchError]);
 
   useEffect(() => {
@@ -91,7 +94,7 @@ const FlightRoute = ({
 FlightRoute.propTypes = {
   airports: PropTypes.shape({}),
   isLoadingData: PropTypes.bool.isRequired,
-  fetchError: PropTypes.shape({}),
+  fetchError: PropTypes.bool,
   formValues: PropTypes.shape({}),
   control: PropTypes.shape({}),
   handleChange: PropTypes.func.isRequired,

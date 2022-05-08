@@ -5,12 +5,11 @@ import FlightRoute from "../FlightRoute/FlightRoute";
 import FlightType from "../FlightType/FlightType";
 import FlightDate from "../FlightDate/FlightDate";
 import SearchFlightButton from "../Buttons/SearchFlightButton";
-import useFetch from "react-fetch-hook";
 import { formWrapper } from "./style";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
-import { AIRPORT_API_PATH, API_TOKEN } from "../../common/config";
+
 import {
   FLIGHT_TYPE,
   ORIGIN_AIRPORT,
@@ -19,30 +18,29 @@ import {
   RETURN_DATE,
 } from "../../common/constants";
 import FlightCriteriaPresentation from "../FlightCriteriaPresentation/FlightCriteriaPresentation";
+import useFetchAirport from "../../hooks/useFetchAirport";
+
+const initialFormValue = {
+  [FLIGHT_TYPE]: flightOptions.ONE_WAY,
+  [ORIGIN_AIRPORT]: "",
+  [DESTINATION_AIRPORT]: "",
+  [DEPART_DATE]: "",
+  [RETURN_DATE]: "",
+};
 
 const App = () => {
   const {
-    isLoading: isLoadingAirports,
-    data: airports,
-    error: fetchAirportError,
-  } = useFetch(AIRPORT_API_PATH, {
-    headers: { "Tenant-Identifier": API_TOKEN },
-  });
-
-  const initialFormValue = {
-    [FLIGHT_TYPE]: flightOptions.ONE_WAY,
-    [ORIGIN_AIRPORT]: "",
-    [DESTINATION_AIRPORT]: "",
-    [DEPART_DATE]: "",
-    [RETURN_DATE]: "",
-  };
+    fetchState: { fetchAirportError, isLoadingAirports },
+    airports,
+  } = useFetchAirport();
 
   const { handleSubmit, control } = useForm();
+
   const [formValues, setFormValues] = useState(initialFormValue);
-  const [dataToDisplay, setData] = useState(null);
+  const [dataToDisplay, setDataToDisplay] = useState(null);
 
   useEffect(() => {
-    setData(null);
+    setDataToDisplay(null);
   }, [formValues]);
 
   const isRoundTrip = formValues[FLIGHT_TYPE] === flightOptions.ROUND_TRIP;
@@ -79,7 +77,7 @@ const App = () => {
 
   return (
     <Box sx={formWrapper}>
-      <form onSubmit={handleSubmit(() => setData(formValues))}>
+      <form onSubmit={handleSubmit(() => setDataToDisplay(formValues))}>
         <Stack direction="column" spacing={2}>
           <FlightType
             formValues={formValues}
@@ -95,6 +93,7 @@ const App = () => {
             spacing={{ xs: 2, lg: 4 }}
           >
             <FlightRoute
+              newA={airports}
               airports={airports}
               isLoadingData={isLoadingAirports}
               fetchError={fetchAirportError}

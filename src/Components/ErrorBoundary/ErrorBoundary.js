@@ -16,7 +16,7 @@ const ErrorBoundary = ({ isLoading, error }) => {
 
 ErrorBoundary.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-  error: PropTypes.shape({}),
+  error: PropTypes.bool,
 };
 
 export default ErrorBoundary;
