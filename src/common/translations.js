@@ -18,7 +18,7 @@ const buttonText = {
 };
 
 const errors = {
-  FETCH_ERROR: "There is a problem witch fetching data",
+  FETCH_ERROR: "There is a problem with fetching data",
 };
 
 const loadingData = {
